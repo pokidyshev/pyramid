@@ -13,6 +13,11 @@
 		2444DF961EDB6D5A001E05A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2444DF951EDB6D5A001E05A9 /* Assets.xcassets */; };
 		2444DF991EDB6D5A001E05A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2444DF971EDB6D5A001E05A9 /* LaunchScreen.storyboard */; };
 		2444DFA21EDB7118001E05A9 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA11EDB7118001E05A9 /* Shaders.metal */; };
+		2444DFA61EDB76A6001E05A9 /* Matrix4.m in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA51EDB76A6001E05A9 /* Matrix4.m */; };
+		2444DFA81EDB776F001E05A9 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA71EDB776F001E05A9 /* Vertex.swift */; };
+		2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA91EDB77A2001E05A9 /* Node.swift */; };
+		2444DFAC1EDB788E001E05A9 /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFAB1EDB788E001E05A9 /* Triangle.swift */; };
+		2444DFAE1EDB7AD4001E05A9 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFAD1EDB7AD4001E05A9 /* Cube.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,13 @@
 		2444DF981EDB6D5A001E05A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2444DF9A1EDB6D5A001E05A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2444DFA11EDB7118001E05A9 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		2444DFA31EDB76A6001E05A9 /* Trapeze-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Trapeze-Bridging-Header.h"; sourceTree = "<group>"; };
+		2444DFA41EDB76A6001E05A9 /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix4.h; sourceTree = "<group>"; };
+		2444DFA51EDB76A6001E05A9 /* Matrix4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Matrix4.m; sourceTree = "<group>"; };
+		2444DFA71EDB776F001E05A9 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		2444DFA91EDB77A2001E05A9 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		2444DFAB1EDB788E001E05A9 /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
+		2444DFAD1EDB7AD4001E05A9 /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +71,14 @@
 				2444DFA01EDB6DE0001E05A9 /* Supporting Files */,
 				2444DF901EDB6D5A001E05A9 /* SceneVC.swift */,
 				2444DFA11EDB7118001E05A9 /* Shaders.metal */,
+				2444DFA41EDB76A6001E05A9 /* Matrix4.h */,
+				2444DFA71EDB776F001E05A9 /* Vertex.swift */,
+				2444DFA91EDB77A2001E05A9 /* Node.swift */,
+				2444DFAD1EDB7AD4001E05A9 /* Cube.swift */,
+				2444DFAB1EDB788E001E05A9 /* Triangle.swift */,
+				2444DFA51EDB76A6001E05A9 /* Matrix4.m */,
 				2444DF921EDB6D5A001E05A9 /* Main.storyboard */,
+				2444DFA31EDB76A6001E05A9 /* Trapeze-Bridging-Header.h */,
 			);
 			path = Trapeze;
 			sourceTree = "<group>";
@@ -108,6 +127,7 @@
 					2444DF8A1EDB6D5A001E05A9 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 7ZQCDQ9H25;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -149,7 +169,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2444DFA21EDB7118001E05A9 /* Shaders.metal in Sources */,
+				2444DFA61EDB76A6001E05A9 /* Matrix4.m in Sources */,
 				2444DF911EDB6D5A001E05A9 /* SceneVC.swift in Sources */,
+				2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */,
+				2444DFAE1EDB7AD4001E05A9 /* Cube.swift in Sources */,
+				2444DFA81EDB776F001E05A9 /* Vertex.swift in Sources */,
+				2444DFAC1EDB788E001E05A9 /* Triangle.swift in Sources */,
 				2444DF8F1EDB6D5A001E05A9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,11 +298,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7ZQCDQ9H25;
 				INFOPLIST_FILE = Trapeze/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nikita.pokidyshev.Trapeze;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Trapeze/Trapeze-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -286,11 +314,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7ZQCDQ9H25;
 				INFOPLIST_FILE = Trapeze/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nikita.pokidyshev.Trapeze;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Trapeze/Trapeze-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
