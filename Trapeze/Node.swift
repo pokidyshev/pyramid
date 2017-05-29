@@ -34,8 +34,8 @@ class Node {
   var texture: MTLTexture
   lazy var samplerState: MTLSamplerState? = Node.defaultSampler(device: self.device)
 
-  let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.05, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8)
-
+  let light = Light(color: (1.0,1.0,1.0), direction: (0.0, 0.0, 1.0), shininess: 10, ambientIntensity: 0.1, diffuseIntensity: 0.8, specularIntensity: 2)
+  
   init(name: String, vertices: Array<Vertex>, device: MTLDevice, texture: MTLTexture) {
     var vertexData = Array<Float>()
     for vertex in vertices {
