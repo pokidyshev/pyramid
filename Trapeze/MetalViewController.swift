@@ -32,29 +32,29 @@ protocol MetalViewControllerDelegate: class {
 class MetalViewController: UIViewController {
 
   var device: MTLDevice!
-  var metalLayer: CAMetalLayer!
   var pipelineState: MTLRenderPipelineState!
   var commandQueue: MTLCommandQueue!
-  var timer: CADisplayLink!
   var projectionMatrix: float4x4!
-  var lastFrameTimestamp: CFTimeInterval = 0.0
   var textureLoader: MTKTextureLoader! = nil
 
   weak var metalViewControllerDelegate: MetalViewControllerDelegate?
+
+  @IBOutlet weak var mtkView: MTKView! {
+    didSet {
+      mtkView.delegate = self
+      mtkView.preferredFramesPerSecond = 60
+      mtkView.clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+    }
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     device = MTLCreateSystemDefaultDevice()
     textureLoader = MTKTextureLoader(device: device)
-    
-    projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
+    mtkView.device = device
 
-    metalLayer = CAMetalLayer()
-    metalLayer.device = device
-    metalLayer.pixelFormat = .bgra8Unorm
-    metalLayer.framebufferOnly = true
-    view.layer.addSublayer(metalLayer)
+    projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
 
     let defaultLibrary = device.newDefaultLibrary()!
     let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
@@ -68,56 +68,25 @@ class MetalViewController: UIViewController {
     pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
 
     commandQueue = device.makeCommandQueue()
-
-    timer = CADisplayLink(target: self, selector: #selector(MetalViewController.newFrame(displayLink:)))
-    timer.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
   }
 
-
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-
-    if let window = view.window {
-      let scale = window.screen.nativeScale
-      let layerSize = view.bounds.size
-
-      view.contentScaleFactor = scale
-      metalLayer.frame = CGRect(x: 0, y: 0, width: layerSize.width, height: layerSize.height)
-      metalLayer.drawableSize = CGSize(width: layerSize.width * scale, height: layerSize.height * scale)
-
-      projectionMatrix =
-        float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0),
-                                         aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height),
-                                         nearZ: 0.01, farZ: 100.0)
-    }
-  }
-
-  func render() {
-    guard let drawable = metalLayer?.nextDrawable() else { return }
+  func render(_ drawable: CAMetalDrawable?) {
+    guard let drawable = drawable else { return }
     self.metalViewControllerDelegate?.renderObjects(drawable: drawable)
   }
-
-  func newFrame(displayLink: CADisplayLink){
-
-    if lastFrameTimestamp == 0.0
-    {
-      lastFrameTimestamp = displayLink.timestamp
-    }
-
-    let elapsed: CFTimeInterval = displayLink.timestamp - lastFrameTimestamp
-    lastFrameTimestamp = displayLink.timestamp
-
-    gameloop(timeSinceLastUpdate: elapsed)
-  }
-
-  func gameloop(timeSinceLastUpdate: CFTimeInterval) {
-
-    self.metalViewControllerDelegate?.updateLogic(timeSinceLastUpdate: timeSinceLastUpdate)
-
-    autoreleasepool {
-      self.render()
-    }
-  }
-
 }
 
+// MARK: - MTKViewDelegate
+extension MetalViewController: MTKViewDelegate {
+
+  func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+    projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0),
+                                                         aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height),
+                                                         nearZ: 0.01, farZ: 100.0)
+  }
+  
+  func draw(in view: MTKView) {
+    render(view.currentDrawable)
+  }
+  
+}
