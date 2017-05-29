@@ -9,6 +9,7 @@
 import Foundation
 import Metal
 import QuartzCore
+import simd
 
 class Node {
 
@@ -50,14 +51,14 @@ class Node {
     vertexCount = vertices.count
     self.texture = texture
     
-    let sizeOfUniformsBuffer = MemoryLayout<Float>.size * Matrix4.numberOfElements() * 2 + Light.size()
+    let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
     self.bufferProvider = BufferProvider(device: device,
                                          inflightBuffersCount: 3,
                                          sizeOfUniformsBuffer: sizeOfUniformsBuffer)
   }
 
-  func modelMatrix() -> Matrix4 {
-    let matrix = Matrix4()
+  func modelMatrix() -> float4x4 {
+    var matrix = float4x4()
     matrix.translate(positionX, y: positionY, z: positionZ)
     matrix.rotateAroundX(rotationX, y: rotationY, z: rotationZ)
     matrix.scale(scale, y: scale, z: scale)
@@ -67,8 +68,8 @@ class Node {
   func render(commandQueue: MTLCommandQueue,
               pipelineState: MTLRenderPipelineState,
               drawable: CAMetalDrawable,
-              parentModelViewMatrix: Matrix4,
-              projectionMatrix: Matrix4,
+              parentModelViewMatrix: float4x4,
+              projectionMatrix: float4x4,
               clearColor: MTLClearColor?)
   {
     _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
@@ -93,7 +94,7 @@ class Node {
       renderEncoder.setFragmentSamplerState(samplerState, at: 0)
     }
 
-    let nodeModelMatrix = self.modelMatrix()
+    var nodeModelMatrix = self.modelMatrix()
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
     let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix,
                                                           modelViewMatrix: nodeModelMatrix,
