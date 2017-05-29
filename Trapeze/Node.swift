@@ -34,7 +34,7 @@ class Node {
   var texture: MTLTexture
   lazy var samplerState: MTLSamplerState? = Node.defaultSampler(device: self.device)
 
-  let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.2)
+  let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.05, direction: (0.0, 0.0, 1.0), diffuseIntensity: 0.8)
 
   init(name: String, vertices: Array<Vertex>, device: MTLDevice, texture: MTLTexture) {
     var vertexData = Array<Float>()
@@ -76,8 +76,7 @@ class Node {
     let renderPassDescriptor = MTLRenderPassDescriptor()
     renderPassDescriptor.colorAttachments[0].texture = drawable.texture
     renderPassDescriptor.colorAttachments[0].loadAction = .clear
-    renderPassDescriptor.colorAttachments[0].clearColor =
-      MTLClearColor(red: 0.0, green: 104.0/255.0, blue: 5.0/255.0, alpha: 1.0)
+    renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     renderPassDescriptor.colorAttachments[0].storeAction = .store
 
     let commandBuffer = commandQueue.makeCommandBuffer()

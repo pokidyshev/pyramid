@@ -43,7 +43,7 @@
 		2444DFA71EDB776F001E05A9 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		2444DFA91EDB77A2001E05A9 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2444DFAD1EDB7AD4001E05A9 /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
-		24FA69011EDCB815004D89C5 /* Light.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
+		24FA69011EDCB815004D89C5 /* Light.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Light.swift; path = ../Light.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +60,6 @@
 		2444DF821EDB6D5A001E05A9 = {
 			isa = PBXGroup;
 			children = (
-				24FA69011EDCB815004D89C5 /* Light.swift */,
 				2444DF8D1EDB6D5A001E05A9 /* Trapeze */,
 				2444DF8C1EDB6D5A001E05A9 /* Products */,
 			);
@@ -80,6 +79,7 @@
 				2444DFA01EDB6DE0001E05A9 /* Supporting Files */,
 				2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */,
 				244499A71EDC961400E5AA4F /* BufferProvider.swift */,
+				24FA69011EDCB815004D89C5 /* Light.swift */,
 				244499661EDC205B00E5AA4F /* MetalViewController.swift */,
 				2444DFA11EDB7118001E05A9 /* Shaders.metal */,
 				2444DFA41EDB76A6001E05A9 /* Matrix4.h */,
