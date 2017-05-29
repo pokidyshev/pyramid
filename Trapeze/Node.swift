@@ -64,6 +64,8 @@ class Node {
               projectionMatrix: Matrix4,
               clearColor: MTLClearColor?)
   {
+    _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
+
     let renderPassDescriptor = MTLRenderPassDescriptor()
     renderPassDescriptor.colorAttachments[0].texture = drawable.texture
     renderPassDescriptor.colorAttachments[0].loadAction = .clear
@@ -72,6 +74,9 @@ class Node {
     renderPassDescriptor.colorAttachments[0].storeAction = .store
 
     let commandBuffer = commandQueue.makeCommandBuffer()
+    commandBuffer.addCompletedHandler { (_) in
+      self.bufferProvider.avaliableResourcesSemaphore.signal()
+    }
 
     let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
     renderEncoder.setCullMode(MTLCullMode.front)

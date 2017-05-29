@@ -13,10 +13,14 @@ class BufferProvider: NSObject {
 
   let inflightBuffersCount: Int
 
+  var avaliableResourcesSemaphore: DispatchSemaphore
+
   private var uniformsBuffers: [MTLBuffer]
   private var avaliableBufferIndex: Int = 0
 
   init(device: MTLDevice, inflightBuffersCount: Int, sizeOfUniformsBuffer: Int) {
+
+    avaliableResourcesSemaphore = DispatchSemaphore(value: inflightBuffersCount)
 
     self.inflightBuffersCount = inflightBuffersCount
     uniformsBuffers = [MTLBuffer]()
@@ -24,6 +28,12 @@ class BufferProvider: NSObject {
     for _ in 0...inflightBuffersCount-1 {
       let uniformsBuffer = device.makeBuffer(length: sizeOfUniformsBuffer, options: [])
       uniformsBuffers.append(uniformsBuffer)
+    }
+  }
+
+  deinit {
+    for _ in 0...self.inflightBuffersCount {
+      self.avaliableResourcesSemaphore.signal()
     }
   }
 
