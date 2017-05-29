@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		244499671EDC205B00E5AA4F /* MetalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244499661EDC205B00E5AA4F /* MetalViewController.swift */; };
 		244499A81EDC961400E5AA4F /* BufferProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244499A71EDC961400E5AA4F /* BufferProvider.swift */; };
-		244499AC1EDCA3FF00E5AA4F /* cube.png in Resources */ = {isa = PBXBuildFile; fileRef = 244499AB1EDCA3FF00E5AA4F /* cube.png */; };
 		2444DF8F1EDB6D5A001E05A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DF8E1EDB6D5A001E05A9 /* AppDelegate.swift */; };
 		2444DF911EDB6D5A001E05A9 /* MySceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */; };
 		2444DF941EDB6D5A001E05A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2444DF921EDB6D5A001E05A9 /* Main.storyboard */; };
@@ -26,7 +25,6 @@
 /* Begin PBXFileReference section */
 		244499661EDC205B00E5AA4F /* MetalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalViewController.swift; sourceTree = "<group>"; };
 		244499A71EDC961400E5AA4F /* BufferProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferProvider.swift; sourceTree = "<group>"; };
-		244499AB1EDCA3FF00E5AA4F /* cube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cube.png; sourceTree = "<group>"; };
 		2444DF8B1EDB6D5A001E05A9 /* Trapeze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trapeze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2444DF8E1EDB6D5A001E05A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySceneViewController.swift; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 				2444DFA71EDB776F001E05A9 /* Vertex.swift */,
 				2444DFA91EDB77A2001E05A9 /* Node.swift */,
 				2444DFAD1EDB7AD4001E05A9 /* Cube.swift */,
-				244499AB1EDCA3FF00E5AA4F /* cube.png */,
 				2444DF921EDB6D5A001E05A9 /* Main.storyboard */,
 				24FA69051EDCCF42004D89C5 /* Light.swift */,
 				24FA69071EDCD0DF004D89C5 /* float4x4+Extensions.swift */,
@@ -162,7 +159,6 @@
 			files = (
 				2444DF991EDB6D5A001E05A9 /* LaunchScreen.storyboard in Resources */,
 				2444DF961EDB6D5A001E05A9 /* Assets.xcassets in Resources */,
-				244499AC1EDCA3FF00E5AA4F /* cube.png in Resources */,
 				2444DF941EDB6D5A001E05A9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

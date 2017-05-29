@@ -35,7 +35,6 @@ class MetalViewController: UIViewController {
   var pipelineState: MTLRenderPipelineState!
   var commandQueue: MTLCommandQueue!
   var projectionMatrix: float4x4!
-  var textureLoader: MTKTextureLoader! = nil
 
   weak var metalViewControllerDelegate: MetalViewControllerDelegate?
 
@@ -51,7 +50,6 @@ class MetalViewController: UIViewController {
     super.viewDidLoad()
 
     device = MTLCreateSystemDefaultDevice()
-    textureLoader = MTKTextureLoader(device: device)
     mtkView.device = device
 
     projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
