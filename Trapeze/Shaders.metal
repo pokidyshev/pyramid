@@ -21,9 +21,15 @@ struct VertexOut{
   float2 texCoord;
 };
 
+struct Light{
+  packed_float3 color;
+  float ambientIntensity;
+};
+
 struct Uniforms{
   float4x4 modelMatrix;
   float4x4 projectionMatrix;
+  Light light;
 };
 
 vertex VertexOut basic_vertex(const device VertexIn* vertex_array [[ buffer(0) ]],
@@ -44,9 +50,13 @@ vertex VertexOut basic_vertex(const device VertexIn* vertex_array [[ buffer(0) ]
 }
 
 fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
+                               const device Uniforms&  uniforms    [[ buffer(1) ]],
                                texture2d<float>  tex2D     [[ texture(0) ]],
                                sampler           sampler2D [[ sampler(0) ]])
 {
+  // Ambient
+  Light light = uniforms.light;
+  float4 ambientColor = float4(light.color * light.ambientIntensity, 1);
   float4 color = tex2D.sample(sampler2D, interpolated.texCoord);
-  return color;
+  return color * ambientColor;
 }

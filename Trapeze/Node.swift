@@ -34,6 +34,8 @@ class Node {
   var texture: MTLTexture
   lazy var samplerState: MTLSamplerState? = Node.defaultSampler(device: self.device)
 
+  let light = Light(color: (1.0,1.0,1.0), ambientIntensity: 0.2)
+
   init(name: String, vertices: Array<Vertex>, device: MTLDevice, texture: MTLTexture) {
     var vertexData = Array<Float>()
     for vertex in vertices {
@@ -47,9 +49,11 @@ class Node {
     self.device = device
     vertexCount = vertices.count
     self.texture = texture
+    
+    let sizeOfUniformsBuffer = MemoryLayout<Float>.size * Matrix4.numberOfElements() * 2 + Light.size()
     self.bufferProvider = BufferProvider(device: device,
                                          inflightBuffersCount: 3,
-                                         sizeOfUniformsBuffer: MemoryLayout<Float>.size * Matrix4.numberOfElements() * 2)
+                                         sizeOfUniformsBuffer: sizeOfUniformsBuffer)
   }
 
   func modelMatrix() -> Matrix4 {
@@ -93,9 +97,11 @@ class Node {
     let nodeModelMatrix = self.modelMatrix()
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
     let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix,
-                                                          modelViewMatrix: nodeModelMatrix)
+                                                          modelViewMatrix: nodeModelMatrix,
+                                                          light: light)
 
     renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, at: 1)
+    renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, at: 1)
     renderEncoder.drawPrimitives(type: .triangle,
                                  vertexStart: 0,
                                  vertexCount: vertexCount,
@@ -106,7 +112,7 @@ class Node {
     commandBuffer.commit()
   }
 
-  func updateWithDelta(delta: CFTimeInterval){
+  func updateWithDelta(delta: CFTimeInterval) {
     time += delta
   }
 

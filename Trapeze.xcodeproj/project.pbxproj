@@ -21,6 +21,7 @@
 		2444DFA81EDB776F001E05A9 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA71EDB776F001E05A9 /* Vertex.swift */; };
 		2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA91EDB77A2001E05A9 /* Node.swift */; };
 		2444DFAE1EDB7AD4001E05A9 /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFAD1EDB7AD4001E05A9 /* Cube.swift */; };
+		24FA69021EDCB815004D89C5 /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA69011EDCB815004D89C5 /* Light.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		2444DFA71EDB776F001E05A9 /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		2444DFA91EDB77A2001E05A9 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		2444DFAD1EDB7AD4001E05A9 /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
+		24FA69011EDCB815004D89C5 /* Light.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		2444DF821EDB6D5A001E05A9 = {
 			isa = PBXGroup;
 			children = (
+				24FA69011EDCB815004D89C5 /* Light.swift */,
 				2444DF8D1EDB6D5A001E05A9 /* Trapeze */,
 				2444DF8C1EDB6D5A001E05A9 /* Products */,
 			);
@@ -181,6 +184,7 @@
 				244499AA1EDCA0B300E5AA4F /* MetalTexture.swift in Sources */,
 				244499A81EDC961400E5AA4F /* BufferProvider.swift in Sources */,
 				2444DFA21EDB7118001E05A9 /* Shaders.metal in Sources */,
+				24FA69021EDCB815004D89C5 /* Light.swift in Sources */,
 				2444DFA61EDB76A6001E05A9 /* Matrix4.m in Sources */,
 				2444DF911EDB6D5A001E05A9 /* MySceneViewController.swift in Sources */,
 				2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */,
