@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		244499671EDC205B00E5AA4F /* MetalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244499661EDC205B00E5AA4F /* MetalViewController.swift */; };
+		244499A81EDC961400E5AA4F /* BufferProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244499A71EDC961400E5AA4F /* BufferProvider.swift */; };
 		2444DF8F1EDB6D5A001E05A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DF8E1EDB6D5A001E05A9 /* AppDelegate.swift */; };
 		2444DF911EDB6D5A001E05A9 /* MySceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */; };
 		2444DF941EDB6D5A001E05A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2444DF921EDB6D5A001E05A9 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		244499661EDC205B00E5AA4F /* MetalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalViewController.swift; sourceTree = "<group>"; };
+		244499A71EDC961400E5AA4F /* BufferProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferProvider.swift; sourceTree = "<group>"; };
 		2444DF8B1EDB6D5A001E05A9 /* Trapeze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trapeze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2444DF8E1EDB6D5A001E05A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySceneViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			children = (
 				2444DFA01EDB6DE0001E05A9 /* Supporting Files */,
 				2444DF901EDB6D5A001E05A9 /* MySceneViewController.swift */,
+				244499A71EDC961400E5AA4F /* BufferProvider.swift */,
 				244499661EDC205B00E5AA4F /* MetalViewController.swift */,
 				2444DFA11EDB7118001E05A9 /* Shaders.metal */,
 				2444DFA41EDB76A6001E05A9 /* Matrix4.h */,
@@ -171,6 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				244499A81EDC961400E5AA4F /* BufferProvider.swift in Sources */,
 				2444DFA21EDB7118001E05A9 /* Shaders.metal in Sources */,
 				2444DFA61EDB76A6001E05A9 /* Matrix4.m in Sources */,
 				2444DF911EDB6D5A001E05A9 /* MySceneViewController.swift in Sources */,

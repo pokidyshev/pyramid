@@ -24,13 +24,16 @@ class Node {
   var rotationX: Float = 0.0
   var rotationY: Float = 0.0
   var rotationZ: Float = 0.0
+
   var scale: Float     = 1.0
 
-  var time:CFTimeInterval = 0.0
+  var time: CFTimeInterval = 0.0
 
-  init(name: String, vertices: Array<Vertex>, device: MTLDevice){
+  var bufferProvider: BufferProvider
+
+  init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
     var vertexData = Array<Float>()
-    for vertex in vertices{
+    for vertex in vertices {
       vertexData += vertex.floatBuffer()
     }
 
@@ -40,6 +43,10 @@ class Node {
     self.name = name
     self.device = device
     vertexCount = vertices.count
+
+    self.bufferProvider = BufferProvider(device: device,
+                                         inflightBuffersCount: 3,
+                                         sizeOfUniformsBuffer: MemoryLayout<Float>.size * Matrix4.numberOfElements() * 2)
   }
 
   func modelMatrix() -> Matrix4 {
@@ -50,7 +57,12 @@ class Node {
     return matrix
   }
 
-  func render(commandQueue: MTLCommandQueue, pipelineState: MTLRenderPipelineState, drawable: CAMetalDrawable, parentModelViewMatrix: Matrix4, projectionMatrix: Matrix4, clearColor: MTLClearColor?)
+  func render(commandQueue: MTLCommandQueue,
+              pipelineState: MTLRenderPipelineState,
+              drawable: CAMetalDrawable,
+              parentModelViewMatrix: Matrix4,
+              projectionMatrix: Matrix4,
+              clearColor: MTLClearColor?)
   {
     let renderPassDescriptor = MTLRenderPassDescriptor()
     renderPassDescriptor.colorAttachments[0].texture = drawable.texture
@@ -68,15 +80,13 @@ class Node {
 
     let nodeModelMatrix = self.modelMatrix()
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
-    let uniformBuffer = device.makeBuffer(length: MemoryLayout<Float>.size * Matrix4.numberOfElements() * 2, options: [])
-    let bufferPointer = uniformBuffer.contents()
+    let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix,
+                                                          modelViewMatrix: nodeModelMatrix)
 
-    memcpy(bufferPointer, nodeModelMatrix.raw(), MemoryLayout<Float>.size * Matrix4.numberOfElements())
-    memcpy(bufferPointer + MemoryLayout<Float>.size * Matrix4.numberOfElements(), projectionMatrix.raw(), MemoryLayout<Float>.size * Matrix4.numberOfElements())
-    
     renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, at: 1)
-
-    renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount,
+    renderEncoder.drawPrimitives(type: .triangle,
+                                 vertexStart: 0,
+                                 vertexCount: vertexCount,
                                  instanceCount: vertexCount/3)
     renderEncoder.endEncoding()
     
