@@ -11,7 +11,7 @@ import Metal
 
 class Cube: Node {
 
-  init(device: MTLDevice, commandQ: MTLCommandQueue){
+  init(device: MTLDevice, commandQ: MTLCommandQueue) {
 
     //Front
     let A = Vertex(x: -1.0, y:   1.0, z:   1.0, r:  1.0, g:  0.0, b:  0.0, a:  1.0, s: 0.25, t: 0.25)
@@ -64,14 +64,5 @@ class Cube: Node {
     texture.loadTexture(device: device, commandQ: commandQ, flip: true)
     
     super.init(name: "Cube", vertices: verticesArray, device: device, texture: texture.texture)
-  }
-
-  override func updateWithDelta(delta: CFTimeInterval) {
-
-    super.updateWithDelta(delta: delta)
-
-    let secsPerMove: Float = 6.0
-    rotationY = sinf( Float(time) * 2.0 * Float(M_PI) / secsPerMove)
-    rotationX = sinf( Float(time) * 2.0 * Float(M_PI) / secsPerMove)
   }
 }

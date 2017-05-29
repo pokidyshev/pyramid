@@ -26,8 +26,7 @@ struct Uniforms{
   float4x4 projectionMatrix;
 };
 
-vertex VertexOut basic_vertex(
-                              const device VertexIn* vertex_array [[ buffer(0) ]],
+vertex VertexOut basic_vertex(const device VertexIn* vertex_array [[ buffer(0) ]],
                               const device Uniforms&  uniforms    [[ buffer(1) ]],
                               unsigned int vid [[ vertex_id ]])
 {
