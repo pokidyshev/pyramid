@@ -38,7 +38,15 @@ class Node {
                     ambientIntensity:  0.1,
                     diffuseIntensity:  0.8,
                     specularIntensity: 2)
-  
+
+  var modelMatrix: float4x4 {
+    var matrix = float4x4()
+    matrix.translate(positionX, y: positionY, z: positionZ)
+    matrix.rotateAroundX(rotationX, y: rotationY, z: rotationZ)
+    matrix.scale(scale, y: scale, z: scale)
+    return matrix
+  }
+
   init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
     var vertexData = Array<Float>()
     for vertex in vertices {
@@ -56,14 +64,6 @@ class Node {
     self.bufferProvider = BufferProvider(device: device,
                                          inflightBuffersCount: 3,
                                          sizeOfUniformsBuffer: sizeOfUniformsBuffer)
-  }
-
-  func modelMatrix() -> float4x4 {
-    var matrix = float4x4()
-    matrix.translate(positionX, y: positionY, z: positionZ)
-    matrix.rotateAroundX(rotationX, y: rotationY, z: rotationZ)
-    matrix.scale(scale, y: scale, z: scale)
-    return matrix
   }
 
   func render(commandQueue: MTLCommandQueue,
@@ -91,7 +91,7 @@ class Node {
     renderEncoder.setRenderPipelineState(pipelineState)
     renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, at: 0)
 
-    var nodeModelMatrix = self.modelMatrix()
+    var nodeModelMatrix = modelMatrix
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
     let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix,
                                                           modelViewMatrix: nodeModelMatrix,
