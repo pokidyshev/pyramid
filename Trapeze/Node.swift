@@ -32,7 +32,12 @@ class Node {
 
   var bufferProvider: BufferProvider
 
-  let light = Light(color: (1.0,1.0,1.0), direction: (0.0, 0.0, 1.0), shininess: 10, ambientIntensity: 0.1, diffuseIntensity: 0.8, specularIntensity: 2)
+  let light = Light(color:             (1.0, 1.0, 1.0),
+                    direction:         (0.0, 0.0, 1.0),
+                    shininess:         10,
+                    ambientIntensity:  0.1,
+                    diffuseIntensity:  0.8,
+                    specularIntensity: 2)
   
   init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
     var vertexData = Array<Float>()

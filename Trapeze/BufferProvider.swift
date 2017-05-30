@@ -13,7 +13,6 @@ import simd
 class BufferProvider: NSObject {
 
   let inflightBuffersCount: Int
-
   var avaliableResourcesSemaphore: DispatchSemaphore
 
   private var uniformsBuffers: [MTLBuffer]
@@ -26,14 +25,14 @@ class BufferProvider: NSObject {
     self.inflightBuffersCount = inflightBuffersCount
     uniformsBuffers = [MTLBuffer]()
 
-    for _ in 0...inflightBuffersCount-1 {
+    for _ in 1...inflightBuffersCount {
       let uniformsBuffer = device.makeBuffer(length: sizeOfUniformsBuffer, options: [])
       uniformsBuffers.append(uniformsBuffer)
     }
   }
 
   deinit {
-    for _ in 0...self.inflightBuffersCount {
+    for _ in 1...self.inflightBuffersCount {
       self.avaliableResourcesSemaphore.signal()
     }
   }
