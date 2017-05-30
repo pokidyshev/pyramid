@@ -12,7 +12,7 @@ import simd
 class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
 
   var worldModelMatrix: float4x4!
-  var objectToDraw: Cube!
+  var objectToDraw: Cone!
 
   let panSensivity: Float = 5.0
   var lastPanLocation: CGPoint!
@@ -24,7 +24,7 @@ class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
     worldModelMatrix.translate(0.0, y: 0.0, z: -4)
     worldModelMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
 
-    objectToDraw = Cube(device: device, commandQ: commandQueue)
+    objectToDraw = Cone(device: device)
     self.metalViewControllerDelegate = self
 
     setupGestures()

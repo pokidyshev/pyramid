@@ -11,7 +11,7 @@ import MetalKit
 
 class Cube: Node {
 
-  init(device: MTLDevice, commandQ: MTLCommandQueue) {
+  init(device: MTLDevice) {
 
     //Front
     let A = Vertex(x: -1.0, y:   1.0, z:   1.0, r:  1.0, g:  0.0, b:  0.0, a:  1.0, nX: 0.0, nY: 0.0, nZ: 1.0)
