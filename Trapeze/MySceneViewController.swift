@@ -31,6 +31,7 @@ class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
   }
 
   //MARK: - MetalViewControllerDelegate
+
   func renderObjects(drawable:CAMetalDrawable) {
 
     objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix, clearColor: nil)
@@ -41,9 +42,13 @@ class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
   }
 
   //MARK: - Gesture related
+
   func setupGestures() {
     let pan = UIPanGestureRecognizer(target: self, action: #selector(MySceneViewController.pan))
     self.view.addGestureRecognizer(pan)
+
+    let pinch = UIPinchGestureRecognizer(target: self, action: #selector(MySceneViewController.pinch))
+    self.view.addGestureRecognizer(pinch)
   }
 
   func pan(panGesture: UIPanGestureRecognizer) {
@@ -58,6 +63,13 @@ class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
       lastPanLocation = pointInView
     } else if panGesture.state == .began {
       lastPanLocation = panGesture.location(in: self.view)
+    }
+  }
+
+  func pinch(pinchRecognizer: UIPinchGestureRecognizer) {
+    if pinchRecognizer.state == .changed {
+      objectToDraw.scale *= Float(pinchRecognizer.scale)
+      pinchRecognizer.scale = 1
     }
   }
 }

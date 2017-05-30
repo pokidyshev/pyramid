@@ -29,7 +29,7 @@ class Cone: Node {
     for _ in 1...sideCount {
       A = B
       B = Vertex(x: cos(alpha), y: 0.0, z: sin(alpha), nX: 0.0, nY: -1.0, nZ: 0.0)
-      vertices += Cone.WithNormals(v1: B, v2: A, v3: H)
+      vertices += Cone.withNormals(v1: B, v2: A, v3: H)
       vertices += [O,A,B]
       alpha += delta
     }
@@ -37,8 +37,7 @@ class Cone: Node {
     super.init(name: "Cone", vertices: vertices, device: device)
   }
 
-
-  private static func CalculateSurfaceNormal(v1: Vertex, v2: Vertex, v3: Vertex) -> (Float, Float, Float) {
+  private static func calculateSurfaceNormal(v1: Vertex, v2: Vertex, v3: Vertex) -> (Float, Float, Float) {
     let p1 = vector3(v1.x, v1.y, v1.z)
     let p2 = vector3(v2.x, v2.y, v2.z)
     let p3 = vector3(v3.x, v3.y, v3.z)
@@ -53,8 +52,8 @@ class Cone: Node {
     return (nX, nY, nZ)
   }
 
-  private static func WithNormals(v1: Vertex, v2: Vertex, v3: Vertex) -> [Vertex] {
-    let norm = CalculateSurfaceNormal(v1: v1, v2: v2, v3: v3)
+  private static func withNormals(v1: Vertex, v2: Vertex, v3: Vertex) -> [Vertex] {
+    let norm = calculateSurfaceNormal(v1: v1, v2: v2, v3: v3)
     return [
       Vertex(x: v1.x, y: v1.y, z: v1.z, nX: norm.0, nY: norm.1, nZ: norm.2),
       Vertex(x: v2.x, y: v2.y, z: v2.z, nX: norm.0, nY: norm.1, nZ: norm.2),
