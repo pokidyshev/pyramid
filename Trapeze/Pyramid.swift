@@ -23,19 +23,23 @@ class Pyramid: Node {
     // Top
     let H = Vertex(x: 0.0, y: 2.0, z: 0.0, nX: 0.0, nY:  1.0, nZ:  0.0, s: 0.5, t: 0.0)
     // Points on the base circle
-    var A = Vertex(x: 1.0, y: 0.0, z: 0.0, nX: 0.0, nY: -1.0, nZ:  0.0, s: 1.0, t: 1.0)
+    var A = Vertex(x: 1.0, y: 0.0, z: 0.0, nX: 0.0, nY: -1.0, nZ:  0.0, s: 0.0, t: 1.0)
     var B = A
 
     let delta = (2*Float.pi) / Float(sideCount)
     var alpha = delta
     var vertices = [Vertex]()
+    
+    let ds = 1.0 / Float(sideCount)
+    var s = ds
 
     for _ in 1...sideCount {
       A = B
-      B = Vertex(x: cos(alpha), y: 0.0, z: sin(alpha), nX: 0.0, nY: -1.0, nZ: 0.0, s: 1.0, t: 1.0)
+      B = Vertex(x: cos(alpha), y: 0.0, z: sin(alpha), nX: 0.0, nY: -1.0, nZ: 0.0, s: s, t: 1.0)
       vertices += Pyramid.withNormals(v1: B, v2: A, v3: H)
       vertices += [O,A,B]
       alpha += delta
+      s += ds
     }
 
     let path = Bundle.main.path(forResource: "pyramid", ofType: "png")!
