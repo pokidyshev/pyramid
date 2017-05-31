@@ -12,9 +12,10 @@ struct Light {
 
   var color: (Float, Float, Float)
   var direction: (Float, Float, Float)
-  var shininess: Float  // Shininess is not a parameter of light,
+  // Shininess is not a parameter of light,
   // it’s more like a parameter of the object material.
   // But for the sake of simplicity it is passed with the light data.
+  var shininess: Float
 
   var ambientIntensity: Float
   var diffuseIntensity: Float

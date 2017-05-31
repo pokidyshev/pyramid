@@ -15,6 +15,7 @@ class Node {
 
   let device: MTLDevice
   let name: String
+
   var vertexCount: Int
   var vertexBuffer: MTLBuffer
 
@@ -28,8 +29,6 @@ class Node {
 
   var scale: Float     = 1.0
 
-  var time: CFTimeInterval = 0.0
-
   var bufferProvider: BufferProvider
 
   let light = Light(color:             (1.0, 1.0, 1.0),
@@ -39,6 +38,7 @@ class Node {
                     diffuseIntensity:  0.8,
                     specularIntensity: 2)
 
+  // returns a model matrix which is used to apply the model transformation
   var modelMatrix: float4x4 {
     var matrix = float4x4()
     matrix.translate(positionX, y: positionY, z: positionZ)
@@ -48,11 +48,15 @@ class Node {
   }
 
   init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
+    // form a single buffer with floats
     var vertexData = Array<Float>()
     for vertex in vertices {
       vertexData += vertex.floatBuffer()
     }
 
+    // ask the device to create a vertex buffer with the float buffer
+    // this creates a new buffer on the GPU, passing in the data from the CPU
+    // empty array as options for default configuration.
     let dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
     vertexBuffer = device.makeBuffer(bytes: vertexData, length: dataSize, options: [])
 
@@ -71,45 +75,56 @@ class Node {
               drawable: CAMetalDrawable,
               parentModelViewMatrix: float4x4,
               projectionMatrix: float4x4,
-              clearColor: MTLClearColor?)
-  {
+              clearColor: MTLClearColor?) {
+
     _ = bufferProvider.avaliableResourcesSemaphore.wait(timeout: DispatchTime.distantFuture)
 
+    // object that configures which texture is being rendered to, 
+    // what the clear color is, and a bit of other configuration
     let renderPassDescriptor = MTLRenderPassDescriptor()
     renderPassDescriptor.colorAttachments[0].texture = drawable.texture
+    // set the texture to the clear color before doing any drawing
     renderPassDescriptor.colorAttachments[0].loadAction = .clear
     renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
     renderPassDescriptor.colorAttachments[0].storeAction = .store
 
+    // The list of render commands that we wish to execute for this frame
+    // Nothing actually happens until the command buffer is commited
     let commandBuffer = commandQueue.makeCommandBuffer()
-    commandBuffer.addCompletedHandler { (_) in
+    commandBuffer.addCompletedHandler { _ in
       self.bufferProvider.avaliableResourcesSemaphore.signal()
     }
 
+    // Helper object to create a render command
     let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
     renderEncoder.setCullMode(MTLCullMode.front)
+    // Specify the pipeline and vertex buffer
     renderEncoder.setRenderPipelineState(pipelineState)
     renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, at: 0)
 
+    // take model matrix and multiply it by the view matrix
     var nodeModelMatrix = modelMatrix
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
+
     let uniformBuffer = bufferProvider.nextUniformsBuffer(projectionMatrix: projectionMatrix,
                                                           modelViewMatrix: nodeModelMatrix,
                                                           light: light)
 
+    // identical data across an entire model
     renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, at: 1)
     renderEncoder.setFragmentBuffer(uniformBuffer, offset: 0, at: 1)
+
+    // Tell the GPU to draw a set of triangles, based on the vertex buffer. 
+    // Each triangle consists of three vertices, starting at index 0 inside the vertex buffer
     renderEncoder.drawPrimitives(type: .triangle,
                                  vertexStart: 0,
                                  vertexCount: vertexCount,
                                  instanceCount: vertexCount/3)
     renderEncoder.endEncoding()
-    
-    commandBuffer.present(drawable)
-    commandBuffer.commit()
-  }
 
-  func updateWithDelta(delta: CFTimeInterval) {
-    time += delta
+    // Make sure the new texture is presented as soon as the drawing completes.
+    commandBuffer.present(drawable)
+    // Commit the transaction to send the task to the GPU.
+    commandBuffer.commit()
   }
 }

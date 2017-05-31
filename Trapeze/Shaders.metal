@@ -15,6 +15,8 @@ struct VertexIn {
 };
 
 struct VertexOut {
+  // vertex shaders must always return a position.
+  // position component with special qualifier [[position]].
   float4 position [[position]];
   float3 fragmentPosition;
   float3 normal;
@@ -43,10 +45,13 @@ struct Uniforms {
   Light light;
 };
 
+// A vertex shader is called once per vertex
+// Its job is to take that vertex’s information
+// and return a potentially modified data
 vertex VertexOut basic_vertex(const device VertexIn* vertex_array [[ buffer(0) ]],
                               const device Uniforms&  uniforms    [[ buffer(1) ]],
-                              unsigned int vid [[ vertex_id ]])
-{
+                              unsigned int vid                    [[ vertex_id ]]) {
+
   float4x4 mv_Matrix = uniforms.modelMatrix;
   float4x4 proj_Matrix = uniforms.projectionMatrix;
 
@@ -60,9 +65,13 @@ vertex VertexOut basic_vertex(const device VertexIn* vertex_array [[ buffer(0) ]
   return VertexOut;
 }
 
-fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
-                               const device Uniforms&  uniforms    [[ buffer(1) ]])
-{
+// This is called for each fragment (think pixel) on the screen
+// The vertex shader passes the VertexOut structure,
+// but its values are interpolated based on the position of the fragment which is rendering
+// Returns the final color for each fragment
+fragment float4 basic_fragment(VertexOut interpolated            [[ stage_in  ]],
+                               const device Uniforms&  uniforms  [[ buffer(1) ]]) {
+
   // Ambient
   Light light = uniforms.light;
   float4 ambientColor = float4(light.color * light.ambientIntensity, 1);
@@ -77,6 +86,8 @@ fragment float4 basic_fragment(VertexOut interpolated [[stage_in]],
   float specularFactor = pow(max(0.0, dot(reflection, eye)), light.shininess);
   float4 specularColor = float4(light.color * light.specularIntensity * specularFactor, 1.0);
 
-  float4 color = float4(0.5, 0.5, 0.5, 1.0);
+  // Just gray to keep thigs simple
+  float4 color = float4(0.3, 0.3, 0.3, 1.0);
+
   return color * (ambientColor + diffuseColor + specularColor);
 }

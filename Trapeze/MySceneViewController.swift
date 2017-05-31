@@ -9,60 +9,55 @@
 import UIKit
 import simd
 
-class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
+class MySceneViewController: MetalViewController {
 
+  // view transformation 
+  // converts node’s coordinates from world coordinates to camera coordinates
   var worldModelMatrix: float4x4!
-  var objectToDraw: Cone!
 
-  let panSensivity: Float = 5.0
+  var objectToDraw: Pyramid!
+
+  var panSensivity: Float = 5.0
   var lastPanLocation: CGPoint!
+
+  var rotationSensivity: Float = 0.05
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     worldModelMatrix = float4x4()
-    worldModelMatrix.translate(0.0, y: 0.0, z: -4)
-    worldModelMatrix.rotateAroundX(float4x4.degrees(toRad: 25), y: 0.0, z: 0.0)
+    worldModelMatrix.translate(0.0, y: 0.0, z: -3.5)
 
-    objectToDraw = Cone(device: device)
+    objectToDraw = Pyramid(device: device)
     self.metalViewControllerDelegate = self
 
     setupGestures()
-  }
-
-  //MARK: - MetalViewControllerDelegate
-
-  func renderObjects(drawable:CAMetalDrawable) {
-
-    objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix, clearColor: nil)
-  }
-
-  func updateLogic(timeSinceLastUpdate: CFTimeInterval) {
-    objectToDraw.updateWithDelta(delta: timeSinceLastUpdate)
   }
 
   //MARK: - Gesture related
 
   func setupGestures() {
     let pan = UIPanGestureRecognizer(target: self, action: #selector(MySceneViewController.pan))
+    pan.maximumNumberOfTouches = 1
     self.view.addGestureRecognizer(pan)
 
     let pinch = UIPinchGestureRecognizer(target: self, action: #selector(MySceneViewController.pinch))
     self.view.addGestureRecognizer(pinch)
   }
 
-  func pan(panGesture: UIPanGestureRecognizer) {
-    if panGesture.state == .changed {
-      let pointInView = panGesture.location(in: self.view)
+  func pan(panRecognizer: UIPanGestureRecognizer) {
+    if panRecognizer.state == .changed {
+      let pointInView = panRecognizer.location(in: self.view)
 
       let xDelta = Float((lastPanLocation.x - pointInView.x)/self.view.bounds.width) * panSensivity
       let yDelta = Float((lastPanLocation.y - pointInView.y)/self.view.bounds.height) * panSensivity
 
       objectToDraw.rotationY -= xDelta
       objectToDraw.rotationX -= yDelta
+
       lastPanLocation = pointInView
-    } else if panGesture.state == .began {
-      lastPanLocation = panGesture.location(in: self.view)
+    } else if panRecognizer.state == .began {
+      lastPanLocation = panRecognizer.location(in: self.view)
     }
   }
 
@@ -74,3 +69,15 @@ class MySceneViewController: MetalViewController, MetalViewControllerDelegate {
   }
 }
 
+extension MySceneViewController: MetalViewControllerDelegate {
+
+  func renderObjects(drawable:CAMetalDrawable) {
+
+    objectToDraw.render(commandQueue: commandQueue,
+                        pipelineState: pipelineState,
+                        drawable: drawable,
+                        parentModelViewMatrix: worldModelMatrix,
+                        projectionMatrix: projectionMatrix,
+                        clearColor: nil)
+  }
+}

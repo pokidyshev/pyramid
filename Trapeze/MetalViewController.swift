@@ -25,15 +25,22 @@ import MetalKit
 import simd
 
 protocol MetalViewControllerDelegate: class {
-  func updateLogic(timeSinceLastUpdate: CFTimeInterval)
   func renderObjects(drawable: CAMetalDrawable)
 }
 
 class MetalViewController: UIViewController {
 
+  // Direct connection to the GPU
   var device: MTLDevice!
+
+  // Combines and precompiles vertex and fragment shader
+  // along with some other configuration data
   var pipelineState: MTLRenderPipelineState!
+
+  // Ordered list of commands that we tell the GPU to execute, one at a time
   var commandQueue: MTLCommandQueue!
+
+  // needed to transform the scene from orthographic to a perspective appearance
   var projectionMatrix: float4x4!
 
   weak var metalViewControllerDelegate: MetalViewControllerDelegate?
@@ -49,20 +56,36 @@ class MetalViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    // create a perspective projection matrix
+    projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0),
+                                                         aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height),
+                                                         nearZ: 0.01,
+                                                         farZ: 100.0)
+
+    setupMetal()
+  }
+
+  private func setupMetal() {
+    // This function returns a reference to the default MTLDevice
     device = MTLCreateSystemDefaultDevice()
     mtkView.device = device
 
-    projectionMatrix = float4x4.makePerspectiveViewAngle(float4x4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
-
+    // Get the MTLLibrary object
     let defaultLibrary = device.newDefaultLibrary()!
+    // Access any of the precompiled shaders included in project through it
     let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
     let vertexProgram = defaultLibrary.makeFunction(name: "basic_vertex")
 
+    // Set up render pipeline configuration
     let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+    // Shaders we want to use
     pipelineStateDescriptor.vertexFunction = vertexProgram
     pipelineStateDescriptor.fragmentFunction = fragmentProgram
+    // The pixel format for the color attachment
+    // i.e. the output buffer we are rendering to, which is the CAMetalLayer itself.
     pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
 
+    // Compile the pipeline configuration into a pipeline state that is efficient to use here on out
     pipelineState = try! device.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
 
     commandQueue = device.makeCommandQueue()
@@ -71,7 +94,7 @@ class MetalViewController: UIViewController {
   func render(_ drawable: CAMetalDrawable?) {
     guard let drawable = drawable else { return }
     self.metalViewControllerDelegate?.renderObjects(drawable: drawable)
-  }
+  } 
 }
 
 // MARK: - MTKViewDelegate

@@ -19,7 +19,7 @@
 		2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2444DFA91EDB77A2001E05A9 /* Node.swift */; };
 		24FA69061EDCCF42004D89C5 /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA69051EDCCF42004D89C5 /* Light.swift */; };
 		24FA69081EDCD0DF004D89C5 /* float4x4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FA69071EDCD0DF004D89C5 /* float4x4+Extensions.swift */; };
-		24FF0E801EDD5E5A008843AF /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FF0E7F1EDD5E5A008843AF /* Cone.swift */; };
+		24FF0E801EDD5E5A008843AF /* Pyramid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FF0E7F1EDD5E5A008843AF /* Pyramid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		2444DFA91EDB77A2001E05A9 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		24FA69051EDCCF42004D89C5 /* Light.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 		24FA69071EDCD0DF004D89C5 /* float4x4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "float4x4+Extensions.swift"; sourceTree = "<group>"; };
-		24FF0E7F1EDD5E5A008843AF /* Cone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
+		24FF0E7F1EDD5E5A008843AF /* Pyramid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pyramid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +77,7 @@
 				2444DFA11EDB7118001E05A9 /* Shaders.metal */,
 				2444DFA71EDB776F001E05A9 /* Vertex.swift */,
 				2444DFA91EDB77A2001E05A9 /* Node.swift */,
-				24FF0E7F1EDD5E5A008843AF /* Cone.swift */,
+				24FF0E7F1EDD5E5A008843AF /* Pyramid.swift */,
 				2444DF921EDB6D5A001E05A9 /* Main.storyboard */,
 				24FA69051EDCCF42004D89C5 /* Light.swift */,
 				24FA69071EDCD0DF004D89C5 /* float4x4+Extensions.swift */,
@@ -178,7 +178,7 @@
 				2444DFAA1EDB77A2001E05A9 /* Node.swift in Sources */,
 				2444DFA81EDB776F001E05A9 /* Vertex.swift in Sources */,
 				2444DF8F1EDB6D5A001E05A9 /* AppDelegate.swift in Sources */,
-				24FF0E801EDD5E5A008843AF /* Cone.swift in Sources */,
+				24FF0E801EDD5E5A008843AF /* Pyramid.swift in Sources */,
 				244499671EDC205B00E5AA4F /* MetalViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
