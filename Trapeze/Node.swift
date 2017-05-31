@@ -38,6 +38,10 @@ class Node {
                     diffuseIntensity:  0.8,
                     specularIntensity: 2)
 
+  var texture: MTLTexture
+  // instructs the GPU how to use the texture
+  lazy var samplerState: MTLSamplerState? = Node.defaultSampler(device: self.device)
+
   // returns a model matrix which is used to apply the model transformation
   var modelMatrix: float4x4 {
     var matrix = float4x4()
@@ -47,7 +51,7 @@ class Node {
     return matrix
   }
 
-  init(name: String, vertices: Array<Vertex>, device: MTLDevice) {
+  init(name: String, vertices: Array<Vertex>, device: MTLDevice, texture: MTLTexture) {
     // form a single buffer with floats
     var vertexData = Array<Float>()
     for vertex in vertices {
@@ -63,6 +67,7 @@ class Node {
     self.name = name
     self.device = device
     vertexCount = vertices.count
+    self.texture = texture
 
     let sizeOfUniformsBuffer = MemoryLayout<Float>.size * float4x4.numberOfElements() * 2 + Light.size()
     self.bufferProvider = BufferProvider(device: device,
@@ -102,6 +107,12 @@ class Node {
     renderEncoder.setRenderPipelineState(pipelineState)
     renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, at: 0)
 
+    // This simply passes the texture and sampler to the shaders
+    renderEncoder.setFragmentTexture(texture, at: 0)
+    if let samplerState = samplerState{
+      renderEncoder.setFragmentSamplerState(samplerState, at: 0)
+    }
+
     // take model matrix and multiply it by the view matrix
     var nodeModelMatrix = modelMatrix
     nodeModelMatrix.multiplyLeft(parentModelViewMatrix)
@@ -126,5 +137,21 @@ class Node {
     commandBuffer.present(drawable)
     // Commit the transaction to send the task to the GPU.
     commandBuffer.commit()
+  }
+
+  // generates a simple texture sampler that basically holds a bunch of flags
+  class func defaultSampler(device: MTLDevice) -> MTLSamplerState {
+    let sampler = MTLSamplerDescriptor()
+    sampler.minFilter             = MTLSamplerMinMagFilter.nearest
+    sampler.magFilter             = MTLSamplerMinMagFilter.nearest
+    sampler.mipFilter             = MTLSamplerMipFilter.nearest
+    sampler.maxAnisotropy         = 1
+    sampler.sAddressMode          = MTLSamplerAddressMode.clampToEdge
+    sampler.tAddressMode          = MTLSamplerAddressMode.clampToEdge
+    sampler.rAddressMode          = MTLSamplerAddressMode.clampToEdge
+    sampler.normalizedCoordinates = true
+    sampler.lodMinClamp           = 0
+    sampler.lodMaxClamp           = FLT_MAX
+    return device.makeSamplerState(descriptor: sampler)
   }
 }

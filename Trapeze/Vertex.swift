@@ -9,8 +9,9 @@
 struct Vertex {
   var x,y,z: Float     // position data
   var nX,nY,nZ: Float  // normal
+  var s,t: Float       // texture coordinates
 
   func floatBuffer() -> [Float] {
-    return [x,y,z,nX,nY,nZ]
+    return [x,y,z,nX,nY,nZ,s,t]
   }
 };

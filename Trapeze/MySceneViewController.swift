@@ -28,7 +28,7 @@ class MySceneViewController: MetalViewController {
     worldModelMatrix = float4x4()
     worldModelMatrix.translate(0.0, y: 0.0, z: -3.5)
 
-    objectToDraw = Pyramid(device: device)
+    objectToDraw = Pyramid(device: device, commandQ: commandQueue, textureLoader: textureLoader)
     self.metalViewControllerDelegate = self
 
     setupGestures()

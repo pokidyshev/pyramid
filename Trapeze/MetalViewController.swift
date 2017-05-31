@@ -43,6 +43,8 @@ class MetalViewController: UIViewController {
   // needed to transform the scene from orthographic to a perspective appearance
   var projectionMatrix: float4x4!
 
+  var textureLoader: MTKTextureLoader! = nil
+
   weak var metalViewControllerDelegate: MetalViewControllerDelegate?
 
   @IBOutlet weak var mtkView: MTKView! {
@@ -69,7 +71,8 @@ class MetalViewController: UIViewController {
     // This function returns a reference to the default MTLDevice
     device = MTLCreateSystemDefaultDevice()
     mtkView.device = device
-
+    textureLoader = MTKTextureLoader(device: device)
+    
     // Get the MTLLibrary object
     let defaultLibrary = device.newDefaultLibrary()!
     // Access any of the precompiled shaders included in project through it
