@@ -54,14 +54,7 @@ class Pyramid: Node {
     let p2 = vector3(v2.x, v2.y, v2.z)
     let p3 = vector3(v3.x, v3.y, v3.z)
 
-    let u = p2 - p1
-    let v = p3 - p1
-
-    let nX = u.y*v.z - u.z*v.y
-    let nY = u.z*v.x - u.x*v.z
-    let nZ = u.x*v.y - u.y*v.x
-
-    return normalize(vector3(nX, nY, nZ))
+    return normalize(cross(p2 - p1, p3 - p1))
   }
 
   private static func withNormals(v1: Vertex, v2: Vertex, v3: Vertex) -> [Vertex] {
