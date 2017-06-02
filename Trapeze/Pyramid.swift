@@ -42,7 +42,7 @@ class Pyramid: Node {
       s += ds
     }
 
-    let path = Bundle.main.path(forResource: "pyramid", ofType: "png")!
+    let path = Bundle.main.path(forResource: "doge", ofType: "jpg")!
     let data = NSData(contentsOfFile: path) as! Data
     let texture = try! textureLoader.newTexture(with: data, options: [MTKTextureLoaderOptionSRGB : (false as NSNumber)])
 
