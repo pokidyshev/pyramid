@@ -36,7 +36,7 @@ class Node {
                     shininess:         10,
                     ambientIntensity:  0.1,
                     diffuseIntensity:  0.8,
-                    specularIntensity: 2)
+                    specularIntensity: 1)
 
   var texture: MTLTexture
   // instructs the GPU how to use the texture
